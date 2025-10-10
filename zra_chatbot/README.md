@@ -1,19 +1,17 @@
 # ZRA Chatbot - Developer Guide
 
 ## Overview
-The ZRA Chatbot is a Next.js-based web application that provides an AI-powered conversational interface for fraud detection assistance. Built with modern React, TypeScript, and TailwindCSS, it integrates with the ZRA SDK for fraud detection capabilities.
+The ZRA Chatbot is a Next.js-based web application that serves as a general-purpose AI assistant for Zambia Revenue Authority services. Built with modern React, TypeScript, and TailwindCSS, it helps users navigate ZRA processes including taxpayer registration, tax filing, compliance queries, payment information, and general ZRA service inquiries. The chatbot integrates with the ZRA SDK to provide real-time information and assistance.
 
 ## Table of Contents
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
 - [Code Standards](#code-standards)
-- [Testing](#testing)
-- [Deployment](#deployment)
 
 ## Project Structure
 
-```
+```text
 zra_chatbot/
 ├── src/
 │   ├── app/                  # Next.js app directory
@@ -277,17 +275,33 @@ npm run test -- --coverage
 // src/lib/api.ts
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function detectFraud(transactionData: TransactionData) {
-  const response = await fetch(`${API_BASE_URL}/api/detect-fraud`, {
+export async function verifyTaxpayer(tpin: string) {
+  const response = await fetch(`${API_BASE_URL}/api/verify-taxpayer`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(transactionData),
+    body: JSON.stringify({ tpin }),
   });
   
   if (!response.ok) {
-    throw new Error('Failed to detect fraud');
+    throw new Error('Failed to verify taxpayer');
+  }
+  
+  return response.json();
+}
+
+export async function getChatResponse(message: string) {
+  const response = await fetch(`${API_BASE_URL}/api/chat`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message }),
+  });
+  
+  if (!response.ok) {
+    throw new Error('Failed to get chat response');
   }
   
   return response.json();

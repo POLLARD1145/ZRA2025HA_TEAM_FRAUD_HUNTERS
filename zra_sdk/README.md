@@ -1,7 +1,7 @@
 # ZRA SDK - Developer Guide
 
 ## Overview
-The ZRA SDK is a Python-based software development kit for fraud detection functionality in the Zambia Revenue Authority system. This SDK provides core utilities, models, and API integrations for fraud detection and analysis.
+The ZRA SDK is a Python-based software development kit that simplifies integration with Zambia Revenue Authority services. This SDK provides developers with easy-to-use tools for taxpayer verification, tax calculations, compliance checks, and other ZRA services. Whether you're building a financial application, tax management system, or business automation tool, the ZRA SDK streamlines your integration with ZRA's official services.
 
 ## Table of Contents
 - [Project Structure](#project-structure)
@@ -115,30 +115,33 @@ mypy .
 ### Example Code Style
 
 ```python
-from typing import Optional, List
+from typing import Optional, Dict
 
 
-def detect_fraud(transaction_id: str, amount: float) -> bool:
+def verify_taxpayer(tpin: str) -> Dict:
     """
-    Detect potential fraud in a transaction.
+    Verify taxpayer details using their TPIN (Taxpayer Identification Number).
     
     Args:
-        transaction_id: Unique identifier for the transaction
-        amount: Transaction amount in ZMW
+        tpin: Taxpayer Identification Number
         
     Returns:
-        True if fraud is detected, False otherwise
+        Dictionary containing taxpayer information including name, status, and compliance details
         
     Raises:
-        ValueError: If transaction_id is empty or amount is negative
+        ValueError: If TPIN format is invalid
+        APIError: If verification fails
     """
-    if not transaction_id:
-        raise ValueError("Transaction ID cannot be empty")
-    if amount < 0:
-        raise ValueError("Amount cannot be negative")
+    if not tpin or len(tpin) != 10:
+        raise ValueError("TPIN must be a 10-digit number")
     
-    # Your fraud detection logic here
-    return False
+    # Taxpayer verification logic here
+    return {
+        "tpin": tpin,
+        "name": "Business Name",
+        "status": "active",
+        "compliant": True
+    }
 ```
 
 ### Naming Conventions
@@ -154,21 +157,23 @@ def detect_fraud(transaction_id: str, amount: float) -> bool:
 Tests are located in the `tests/` directory. Use **pytest** for writing tests:
 
 ```python
-# tests/test_fraud_detection.py
+# tests/test_taxpayer_verification.py
 import pytest
-from zra_sdk.core.fraud_detector import detect_fraud
+from zra_sdk.core.taxpayer import verify_taxpayer
 
 
-def test_detect_fraud_valid_transaction():
-    """Test fraud detection with valid transaction."""
-    result = detect_fraud("TXN123", 1000.00)
-    assert isinstance(result, bool)
+def test_verify_taxpayer_valid_tpin():
+    """Test taxpayer verification with valid TPIN."""
+    result = verify_taxpayer("1000123456")
+    assert isinstance(result, dict)
+    assert "tpin" in result
+    assert "status" in result
 
 
-def test_detect_fraud_invalid_amount():
-    """Test fraud detection with negative amount."""
+def test_verify_taxpayer_invalid_tpin():
+    """Test taxpayer verification with invalid TPIN."""
     with pytest.raises(ValueError):
-        detect_fraud("TXN123", -100.00)
+        verify_taxpayer("123")
 ```
 
 ### Running Tests
@@ -192,13 +197,13 @@ pytest --cov=zra_sdk --cov-report=html
 ### Core Modules
 
 #### `zra_sdk.core`
-Core functionality for fraud detection algorithms.
+Core functionality for ZRA service integrations including taxpayer verification, tax calculations, and compliance checks.
 
 #### `zra_sdk.models`
-Data models and schemas for transactions, users, and fraud reports.
+Data models and schemas for taxpayers, transactions, tax returns, and compliance reports.
 
 #### `zra_sdk.utils`
-Utility functions for data processing, validation, and formatting.
+Utility functions for TPIN validation, data formatting, currency conversions, and API request handling.
 
 #### `zra_sdk.api`
 FastAPI endpoints for exposing SDK functionality as REST API.
@@ -206,20 +211,24 @@ FastAPI endpoints for exposing SDK functionality as REST API.
 ### Example Usage
 
 ```python
-from zra_sdk import FraudDetector
+from zra_sdk import ZRAClient
 
-# Initialize detector
-detector = FraudDetector(api_key="your-api-key")
+# Initialize client
+client = ZRAClient(api_key="your-api-key")
 
-# Analyze transaction
-result = detector.analyze_transaction(
-    transaction_id="TXN123",
-    amount=5000.00,
-    user_id="USER456"
+# Verify a taxpayer
+taxpayer = client.verify_taxpayer(tpin="1000123456")
+print(f"Taxpayer Name: {taxpayer.name}")
+print(f"Status: {taxpayer.status}")
+print(f"Compliant: {taxpayer.compliant}")
+
+# Calculate tax
+tax_result = client.calculate_tax(
+    amount=50000.00,
+    tax_type="VAT"
 )
-
-print(f"Fraud Risk: {result.risk_score}")
-print(f"Is Fraudulent: {result.is_fraud}")
+print(f"Tax Amount: {tax_result.tax_amount}")
+print(f"Total: {tax_result.total}")
 ```
 
 ## Building and Distribution

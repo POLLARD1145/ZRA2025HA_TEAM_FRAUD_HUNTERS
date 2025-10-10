@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ZRA Fraud Detection Chatbot',
-  description: 'AI-powered chatbot for fraud detection assistance',
+  title: 'ZRA Assistant Chatbot',
+  description: 'AI-powered assistant for Zambia Revenue Authority services',
 };
 
 export default function RootLayout({

@@ -1,21 +1,21 @@
 # ZRA Fraud Hunters - 2025 Hackathon Project
 
-Welcome to the **Team Fraud Hunters** repository for the 2025 Zambia Revenue Authority (ZRA) Hackathon! This project consists of a fraud detection SDK and an AI-powered chatbot for fraud detection assistance.
+Welcome to the **Team Fraud Hunters** repository for the 2025 Zambia Revenue Authority (ZRA) Hackathon! This project provides developers with tools to integrate ZRA services and an AI-powered assistant to help users navigate ZRA processes.
 
 ## 🚀 Project Overview
 
 This repository contains two main components:
 
-1. **ZRA SDK** (`zra_sdk/`) - A Python-based fraud detection SDK
-2. **ZRA Chatbot** (`zra_chatbot/`) - A Next.js-based AI chatbot interface
+1. **ZRA SDK** (`zra_sdk/`) - A Python-based SDK for integrating ZRA services like taxpayer verification, tax calculations, and compliance checks
+2. **ZRA Chatbot** (`zra_chatbot/`) - A Next.js-based general-purpose AI assistant for Zambia Revenue Authority services
 
 ## 📁 Repository Structure
 
 ```text
 ZRA2025HA_TEAM_FRAUD_HUNTERS/
-├── zra_sdk/                    # Python SDK for fraud detection
+├── zra_sdk/                    # Python SDK for ZRA service integration
 │   ├── __init__.py
-│   ├── core/                   # Core fraud detection logic
+│   ├── core/                   # Core functionality
 │   │   └── __init__.py
 │   ├── models/                 # Data models and schemas
 │   │   └── __init__.py
