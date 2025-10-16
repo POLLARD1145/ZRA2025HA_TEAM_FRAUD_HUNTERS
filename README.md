@@ -209,3 +209,22 @@ For questions or issues:
 
 **Last Updated**: 2025-10-10  
 **Maintained by**: Team Fraud Hunters
+
+
+//////////////////16/10/2025
+
+# ZRA SDK
+
+A Python SDK for integrating with Zambia Revenue Authority (ZRA) services.
+
+## Features
+
+- ✅ Taxpayer verification
+- ✅ Tax calculations
+- ✅ Compliance checking
+- ✅ Easy-to-use API
+
+## Installation
+
+```bash
+pip install zra-sdk
