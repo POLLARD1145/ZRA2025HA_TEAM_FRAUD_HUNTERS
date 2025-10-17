@@ -1,8 +1,7 @@
 """
-Data models for ZRA SDK
+Compatibility layer re-exporting taxpayer models from zra_sdk.models.
 """
-
-from .taxpayer import (
+from ...models.taxpayer import (
     Address,
     Contact,
     TaxRegistration,
