@@ -1,15 +1,13 @@
+
 """
-ZRA SDK - Fraud Detection SDK for Zambia Revenue Authority
+ZRA SDK - Zambia Revenue Authority Software Development Kit
+A Python toolkit for integrating with ZRA services.
 """
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 __author__ = "Team Fraud Hunters"
 
-# Public API
-from .client import ZRAClient  # noqa: E402,F401
+from zra_sdk.api.taxpayer_api import verify_taxpayer, calculate_tax
+from zra_sdk.models.taxpayer import Taxpayer
 
-__all__ = [
-    "ZRAClient",
-    "__version__",
-    "__author__",
-]
+__all__ = ['verify_taxpayer', 'calculate_tax', 'Taxpayer']

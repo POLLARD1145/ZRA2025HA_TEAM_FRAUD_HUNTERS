@@ -1,21 +1,4 @@
 """
 Data models for ZRA SDK
 """
-
-from .taxpayer import (
-    Address,
-    Contact,
-    TaxRegistration,
-    ComplianceRecord,
-    BusinessCategory,
-    Taxpayer,
-)
-
-__all__ = [
-    "Address",
-    "Contact",
-    "TaxRegistration",
-    "ComplianceRecord",
-    "Taxpayer",
-    "BusinessCategory",
-]
+# Models package initialization
