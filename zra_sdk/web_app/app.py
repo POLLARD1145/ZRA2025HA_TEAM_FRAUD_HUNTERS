@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ZRA SDK Web Application - Vercel Deployment with Compliance Features
+ZRA SDK Web Application with Compliance Features
 """
 
 try:
@@ -8,12 +8,12 @@ try:
     import sys
     import os
 
-    # Add the parent directory (zra_sdk) to Python path
+    # FIX: Add the parent directory (zra_sdk) to Python path
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    parent_dir = os.path.dirname(current_dir)
+    parent_dir = os.path.dirname(current_dir)  # This goes to zra_sdk folder
     sys.path.insert(0, parent_dir)
 
-    # Import APIs
+    # FIX: Import only from api.taxpayer_api - no direct model imports needed
     from api.taxpayer_api import verify_taxpayer, calculate_tax, check_compliance, get_compliance_report
 
     app = Flask(__name__)
@@ -30,11 +30,12 @@ try:
             data = request.get_json()
             if not data:
                 return jsonify({'error': 'No JSON data provided'}), 400
-
+                
             tpin = data.get('tpin')
+            
             if not tpin:
                 return jsonify({'error': 'TPIN is required'}), 400
-
+            
             taxpayer = verify_taxpayer(tpin)
             return jsonify({
                 'success': True,
@@ -58,12 +59,13 @@ try:
             data = request.get_json()
             if not data:
                 return jsonify({'error': 'No JSON data provided'}), 400
-
+                
             income = float(data.get('income', 0))
             tax_type = data.get('tax_type', 'income')
+            
             if income <= 0:
                 return jsonify({'error': 'Income must be positive'}), 400
-
+            
             tax_calc = calculate_tax(income, tax_type)
             return jsonify({
                 'success': True,
@@ -84,11 +86,12 @@ try:
             data = request.get_json()
             if not data:
                 return jsonify({'error': 'No JSON data provided'}), 400
-
+                
             tpin = data.get('tpin')
+            
             if not tpin:
                 return jsonify({'error': 'TPIN is required'}), 400
-
+            
             compliance = check_compliance(tpin)
             return jsonify({
                 'success': True,
@@ -104,11 +107,12 @@ try:
             data = request.get_json()
             if not data:
                 return jsonify({'error': 'No JSON data provided'}), 400
-
+                
             tpin = data.get('tpin')
+            
             if not tpin:
                 return jsonify({'error': 'TPIN is required'}), 400
-
+            
             report = get_compliance_report(tpin)
             return jsonify({
                 'success': True,
@@ -117,14 +121,10 @@ try:
         except Exception as e:
             return jsonify({'success': False, 'error': str(e)}), 400
 
-    # Vercel compatibility
     if __name__ == '__main__':
         print("🚀 ZRA SDK Web App with Compliance Features Starting...")
         print("📍 Access at: http://localhost:5000")
         app.run(debug=True, host='0.0.0.0', port=5000)
-    else:
-        # For Vercel serverless deployment
-        application = app
 
 except ImportError as e:
     print(f"❌ Import Error: {e}")
@@ -132,10 +132,3 @@ except ImportError as e:
     print("   1. You're running from the web_app folder")
     print("   2. The parent zra_sdk folder has api/, models/, utils/ folders")
     print("   3. All required Python files exist")
-    
-    # For Vercel deployment
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5000)
-else:
-    # This is required for Vercel
-    application = app
