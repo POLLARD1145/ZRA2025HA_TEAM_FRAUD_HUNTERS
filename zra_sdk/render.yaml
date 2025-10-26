@@ -1,0 +1,15 @@
+# Update your render.yaml
+@'
+services:
+  - type: web
+    name: zra-sdk
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+'@ | Set-Content -Path "render.yaml" -Encoding utf8
