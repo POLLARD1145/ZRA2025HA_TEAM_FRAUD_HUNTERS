@@ -6,10 +6,9 @@ services:
     env: python
     plan: free
     buildCommand: |
+      cd zra_sdk
       pip install -r requirements.txt
     startCommand: |
+      cd zra_sdk
       gunicorn wsgi:app --bind 0.0.0.0:$PORT
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.9.0
 '@ | Set-Content -Path "render.yaml" -Encoding utf8
