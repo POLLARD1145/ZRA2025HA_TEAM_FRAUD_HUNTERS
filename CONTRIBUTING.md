@@ -3,6 +3,7 @@
 Thank you for contributing to the ZRA 2025 Hackathon project! This document provides guidelines and standards for contributing to this repository.
 
 ## Table of Contents
+
 - [Branching Strategy](#branching-strategy)
 - [Development Workflow](#development-workflow)
 - [Code Standards](#code-standards)
@@ -21,12 +22,6 @@ We use a **personal branch workflow** to ensure code quality and facilitate team
 - **Feature branches** (optional): For specific features, created from your personal branch.
 
 ### Important Rules
-
-1. ✅ **Always work on your personal branch**
-2. ✅ **Test your changes thoroughly before creating a pull request**
-3. ✅ **Never commit directly to the `main` branch**
-4. ✅ **Keep your branch updated with `main` regularly**
-5. ✅ **All changes must go through pull request review**
 
 ## Development Workflow
 
@@ -85,6 +80,7 @@ git push origin your-name
 Before creating a pull request, **thoroughly test your changes**:
 
 #### For SDK (Python):
+
 ```bash
 cd zra_sdk
 
@@ -99,6 +95,7 @@ flake8 .
 ```
 
 #### For Chatbot (Next.js):
+
 ```bash
 cd zra_chatbot
 
@@ -120,6 +117,7 @@ npm run build
 Once you've tested your changes:
 
 1. **Push your changes** to your branch:
+
    ```bash
    git push origin your-name
    ```
@@ -142,9 +140,11 @@ When creating a pull request, use this template:
 
 ```markdown
 ## Description
+
 Brief description of what this PR does.
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation update
@@ -152,23 +152,28 @@ Brief description of what this PR does.
 - [ ] Performance improvement
 
 ## Changes Made
+
 - Change 1
 - Change 2
 - Change 3
 
 ## Testing Done
+
 - [ ] Unit tests added/updated
 - [ ] Manual testing completed
 - [ ] All tests passing
 - [ ] Code formatted and linted
 
 ## Screenshots (if applicable)
+
 Add screenshots for UI changes.
 
 ## Related Issues
+
 Fixes #(issue number)
 
 ## Checklist
+
 - [ ] My code follows the project's code standards
 - [ ] I have tested my changes thoroughly
 - [ ] I have updated documentation if needed
@@ -201,15 +206,18 @@ When reviewing a PR, check for:
 ### General Standards
 
 1. **Write clean, readable code**
+
    - Use meaningful variable and function names
    - Keep functions small and focused
    - Add comments for complex logic
 
 2. **Follow language-specific conventions**
+
    - Python: PEP 8
    - TypeScript/JavaScript: ESLint + Prettier
 
 3. **No dead code**
+
    - Remove commented-out code
    - Remove unused imports and variables
 
@@ -225,19 +233,19 @@ When reviewing a PR, check for:
 def calculate_fraud_score(transaction: dict) -> float:
     """
     Calculate fraud risk score for a transaction.
-    
+
     Args:
         transaction: Dictionary containing transaction details
-        
+
     Returns:
         Float value between 0 and 1 representing fraud risk
-        
+
     Raises:
         ValueError: If transaction data is invalid
     """
     if not transaction:
         raise ValueError("Transaction cannot be empty")
-    
+
     # Calculation logic here
     return 0.0
 
@@ -256,7 +264,11 @@ interface TransactionProps {
   timestamp: Date;
 }
 
-export const Transaction: FC<TransactionProps> = ({ id, amount, timestamp }) => {
+export const Transaction: FC<TransactionProps> = ({
+  id,
+  amount,
+  timestamp,
+}) => {
   return (
     <div className="transaction">
       <span>{id}</span>
@@ -267,7 +279,7 @@ export const Transaction: FC<TransactionProps> = ({ id, amount, timestamp }) => 
 
 // Bad
 export const Transaction = (props: any) => {
-  return <div>{props.id}</div>;  // Using 'any', incomplete implementation
+  return <div>{props.id}</div>; // Using 'any', incomplete implementation
 };
 ```
 
@@ -295,27 +307,27 @@ def test_fraud_detection_with_high_amount():
         'amount': 100000.00,
         'user_id': 'USER456'
     }
-    
+
     result = detect_fraud(transaction)
-    
+
     assert result.is_flagged == True
     assert result.risk_score > 0.7
 ```
 
 ```typescript
 // TypeScript test example
-describe('ChatInput', () => {
-  it('should send message on submit', async () => {
+describe("ChatInput", () => {
+  it("should send message on submit", async () => {
     const mockOnSend = jest.fn();
     render(<ChatInput onSend={mockOnSend} />);
-    
-    const input = screen.getByRole('textbox');
-    const button = screen.getByRole('button');
-    
-    fireEvent.change(input, { target: { value: 'Test message' } });
+
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button");
+
+    fireEvent.change(input, { target: { value: "Test message" } });
     fireEvent.click(button);
-    
-    expect(mockOnSend).toHaveBeenCalledWith('Test message');
+
+    expect(mockOnSend).toHaveBeenCalledWith("Test message");
   });
 });
 ```
@@ -359,6 +371,7 @@ git commit -m "changes"
 Maintain the established folder structure:
 
 ### SDK Structure
+
 ```
 zra_sdk/
 ├── core/          # Core functionality only
@@ -369,6 +382,7 @@ zra_sdk/
 ```
 
 ### Chatbot Structure
+
 ```
 zra_chatbot/
 └── src/

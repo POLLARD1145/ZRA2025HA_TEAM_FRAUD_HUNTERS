@@ -159,21 +159,23 @@ Tests are located in the `tests/` directory. Use **pytest** for writing tests:
 ```python
 # tests/test_taxpayer_verification.py
 import pytest
-from zra_sdk.core.taxpayer import verify_taxpayer
+from zra_sdk import ZRAClient
+from zra_sdk.core.tax_verification.exceptions import InvalidTPINError
 
 
 def test_verify_taxpayer_valid_tpin():
     """Test taxpayer verification with valid TPIN."""
-    result = verify_taxpayer("1000123456")
-    assert isinstance(result, dict)
-    assert "tpin" in result
-    assert "status" in result
+    client = ZRAClient()
+    taxpayer = client.verify_taxpayer("1000123456")
+    assert taxpayer.tpin == "1000123456"
+    assert taxpayer.name
 
 
 def test_verify_taxpayer_invalid_tpin():
     """Test taxpayer verification with invalid TPIN."""
-    with pytest.raises(ValueError):
-        verify_taxpayer("123")
+    client = ZRAClient()
+    with pytest.raises(InvalidTPINError):
+        client.verify_taxpayer("123")
 ```
 
 ### Running Tests
