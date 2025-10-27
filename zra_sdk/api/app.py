@@ -1,4 +1,4 @@
-# Update zra_sdk/api/app.py template paths
+# Update zra_sdk/api/app.py to handle the new structure
 @'
 from flask import Flask, render_template, request, jsonify
 import os
@@ -7,6 +7,9 @@ import sys
 # Get the current directory (zra_sdk/api/)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Add project root to Python path
+sys.path.insert(0, project_root)
 
 # Set template and static paths
 template_dir = os.path.join(project_root, 'web_app', 'templates')
