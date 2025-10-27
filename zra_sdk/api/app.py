@@ -1,13 +1,12 @@
+# Update zra_sdk/api/app.py template paths
+@'
 from flask import Flask, render_template, request, jsonify
 import os
 import sys
 
-# Get the current directory
+# Get the current directory (zra_sdk/api/)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, '..'))
-
-# Add to Python path
-sys.path.insert(0, project_root)
 
 # Set template and static paths
 template_dir = os.path.join(project_root, 'web_app', 'templates')
@@ -40,7 +39,7 @@ def calculate_tax(amount, tax_type="income"):
         "message": f"Tax calculated for {tax_type} tax"
     }
 
-# Create Flask app with explicit paths
+# Create Flask app
 app = Flask(__name__,
     template_folder=template_dir,
     static_folder=static_dir
@@ -51,21 +50,21 @@ def home():
     try:
         return render_template('index.html')
     except Exception as e:
-        return f"""
+        return f'''
         <html>
             <body>
-                <h1>ZRA SDK Demo</h1>
+                <h1>ZRA SDK Demo - LIVE! 🚀</h1>
                 <p>Template system loading... but API is working!</p>
-                <p>Error: {str(e)}</p>
                 <p>Test these endpoints:</p>
                 <ul>
                     <li><a href="/api/health">Health Check</a></li>
                     <li><a href="/api/verify-taxpayer?tpin=123456789">Verify Taxpayer</a></li>
                     <li><a href="/api/calculate-tax?amount=25000">Calculate Tax</a></li>
                 </ul>
+                <p><small>Error: {str(e)}</small></p>
             </body>
         </html>
-        """
+        '''
 
 @app.route('/api/verify-taxpayer', methods=['GET'])
 def verify_taxpayer_route():
@@ -89,14 +88,11 @@ def health_check():
         "status": "healthy", 
         "service": "ZRA SDK API",
         "deployment": "Render.com",
-        "endpoints": {
-            "verify_taxpayer": "/api/verify-taxpayer?tpin=123456789",
-            "calculate_tax": "/api/calculate-tax?amount=25000",
-            "health": "/api/health"
-        }
+        "message": "Successfully deployed! 🎉"
     })
 
 # Production server
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
+'@ | Set-Content -Path "zra_sdk/api/app.py" -Encoding utf8
