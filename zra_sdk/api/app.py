@@ -1,38 +1,34 @@
-from flask import Flask, jsonify
+# Update zra_sdk/api/app.py to use the new web_app
+import sys
 import os
 
-app = Flask(__name__)
+# Add the project path to access your web_app
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
 
-@app.route("/")
-def home():
-    return "<h1>ZRA SDK - Successfully Deployed! 🎉</h1><p><a href='/api/health'>Health Check</a> | <a href='/api/verify-taxpayer'>Verify Taxpayer</a> | <a href='/api/calculate-tax'>Calculate Tax</a></p>"
+# Add both possible paths
+sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.join(project_root, 'web_app'))
 
-@app.route("/api/verify-taxpayer")
-def verify_taxpayer():
-    return jsonify({
-        "tpin": "123456789",
-        "business_name": "Demo Business",
-        "status": "Active",
-        "message": "ZRA SDK - Production Ready"
-    })
+print("Loading ZRA SDK Web Application...")
 
-@app.route("/api/calculate-tax")
-def calculate_tax():
-    return jsonify({
-        "amount": 25000,
-        "tax_type": "income", 
-        "tax_due": 7500,
-        "message": "Tax calculated successfully"
-    })
-
-@app.route("/api/health")
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "service": "ZRA SDK API", 
-        "deployment": "Render.com",
-        "message": "Successfully deployed!"
-    })
+# Import your actual web app
+try:
+    from app import app
+    print("✅ Successfully imported web_app.app")
+except ImportError as e:
+    print(f"❌ Import error: {e}")
+    # Fallback
+    from flask import Flask, jsonify
+    app = Flask(__name__)
+    
+    @app.route("/")
+    def home():
+        return "ZRA SDK - Please check web_app setup"
+    
+    @app.route("/api/health")
+    def health():
+        return jsonify({"status": "web_app import failed"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
