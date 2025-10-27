@@ -1,0 +1,14 @@
+# Update render.yaml in the repository root (NOT inside zra_sdk)
+@'
+services:
+  - type: web
+    name: zra-sdk
+    env: python
+    plan: free
+    buildCommand: |
+      cd zra_sdk
+      pip install -r requirements.txt
+    startCommand: |
+      cd zra_sdk
+      gunicorn wsgi:app --bind 0.0.0.0:$PORT
+'@ | Set-Content -Path "render.yaml" -Encoding utf8
